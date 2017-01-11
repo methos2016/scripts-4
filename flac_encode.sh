@@ -16,7 +16,7 @@ fi
 ext=$1
 rnd=$(head -c 4 /dev/urandom | xxd -p)
 threads=$2
-  let threads=threads+1
+  threads=$((threads+1))
 
 
 # get list of arguments

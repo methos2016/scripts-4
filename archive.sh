@@ -1,5 +1,5 @@
 #! /bin/bash
-# --- About: Archive, compress, encrypt, and output file to current directory (this is script is intended for backups, not file sharing)
+# --- About: Archive, compress, encrypt, and output file to current directory
 # --- Usage: script.sh <input_file/folder> <compression> <operation>
 # --- Tools needed: tar, gnupg, xz-utils, bzip2, gzip
 set -e

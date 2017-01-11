@@ -24,7 +24,7 @@ do
   pass="$pass"$(echo -n ${chars:$index:1});
 
   # update counter
-  let len=len-1;
+  len=$((len-1));
 done
 
 # show generated password
