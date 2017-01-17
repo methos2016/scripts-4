@@ -1,0 +1,76 @@
+#! /bin/bash
+# --- ***** RUN THIS AT YOUR OWN RISK *****
+# --- About: XOR encrypt/decrypt a file to current folder.
+# --- Usage:
+# ---   To xor encrypt a file: script <input_file>
+# ---   To xor decrypt a file: -d <data_file> <key_file>
+# --- Tools needed: xor, passgen, head, xxd
+# ---   "xor" tool can be found at:     http://pastebin.com/E9UGTYd1
+# ---   "passgen" tool can be found at: https://github.com/7ng3dk/scripts
+# --- Data file name is something like this: VQYQEoyEeQjCBD7UcAUgek.tar.xz, KnL475aQWErk7A.txt
+if [ $# -eq 0 ]; then
+  echo 'Usage:'
+  echo '  To xor encrypt a file: script <input_file>'
+  echo '  To xor decrypt a file: script -d <data_file> <key_file>'
+  echo
+  echo '  Data file name is something like this: VQYQEoyEeQjCBD7UcAUgek.tar.xz, KnL475aQWErk7A.txt'
+  exit 2
+fi
+
+
+# check for "decryption"
+if [ "$1" == '-d' ]; then
+  data_file="$2"
+  key_file="$3"
+
+  # check if both files exists...
+  if [ ! -f "$2" ] || [ ! -f "$3" ]; then
+    echo 'Input file(s) is invalid.'
+
+    exit 2
+  fi
+
+  origname="${key_file%.*}"
+  origname=$(basename "$origname")
+
+  cat "$data_file" | xor "$key_file" > "$origname"
+
+  exit
+fi
+
+
+# perform "encryption"
+input_file="$1"
+
+
+# check if file exists...
+if [ ! -f "$1" ]; then
+  echo 'Input file is invalid.'
+
+  exit 2
+fi
+
+
+filename=$(basename "$input_file")
+ext_file=${filename##*.}
+
+
+# generate random extension
+ext=$(passgen 16 2 -q)
+
+
+# generate random data
+echo 'Generating random data...'
+head -c $(stat "$input_file" '--format=%s') '/dev/urandom' | xxd -p | xxd -r -p > "$filename.$ext"
+echo -e 'Random data generated.\n'
+
+echo -e 'XORing...\n'
+cat "$input_file" | xor "$filename.$ext" > "$ext.$ext_file"
+
+echo 'File data: '$ext'.'$ext_file
+echo 'Key data:  '$filename'.'$ext
+
+echo -e '\nDone!';
+# --- Bitcoin donations: 1KRrt1czThtZ1kTyUd7z7u296q9K9G2RHX
+# ---   God bless you!
+# ---     Thank you!
