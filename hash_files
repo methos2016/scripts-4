@@ -1,0 +1,36 @@
+#! /bin/bash
+# --- ***** RUN THIS AT YOUR OWN RISK *****
+# --- About: Hash ALL FILES from current directory and output hashes to text file.
+# --- Usage: script.sh <hash_algo>
+# ---   hash_algo: MD5, SHA1, SHA224, SHA256, SHA384, SHA512
+# --- Tools needed: tr, find, md5sum, sha1sum, sha224sum, sha256sum, sha384sum, sha512sum
+set -e
+
+
+# if insufficient number of commands were given show help message
+if [ $# -eq 0 ]; then
+  echo 'Usage: script.sh <hash_algo>'
+  echo '  Example: script.sh sha256'
+  exit 2
+fi
+
+
+if [ "$1" != 'md5' ] && [ "$1" != 'sha1' ] && [ "$1" != 'sha224' ] && [ "$1" != 'sha256' ] && [ "$1" != 'sha384' ] && [ "$1" != 'sha512' ] ; then
+  echo 'Invalid hash tool.'
+
+  exit 2
+fi
+
+
+hash_tool=$(echo "$1" | tr 'A-Z' 'a-z')'sum'
+
+
+echo 'hello' | $hash_tool > /dev/null &&
+find ./ -type f -exec $hash_tool {} + > '/tmp/SwR8bqEBvGSriAXEWsDHPSqKr2NmBcE4.sum' &&
+mv '/tmp/SwR8bqEBvGSriAXEWsDHPSqKr2NmBcE4.sum' $hash_tool &&
+chmod a+r-wx $hash_tool
+
+
+# --- Bitcoin donations: 1KRrt1czThtZ1kTyUd7z7u296q9K9G2RHX
+# ---   God bless you!
+# ---     Thank you!
