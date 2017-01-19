@@ -1,0 +1,20 @@
+#! /bin/bash
+# --- ***** RUN THIS AT YOUR OWN RISK *****
+# --- About: This script splits a file in several parts into current folder
+# --- Usage: scripts <int:parts> <input_file>
+# --- Tools needed: coreutils, passgen
+if [ "$#" -lt 2 ]; then
+  echo 'Usage: script <parts> <input_file>'
+  echo '  Example: script 3 file.txt'
+  exit
+fi
+
+
+fullfile="$2"
+filename=$(basename "$fullfile")
+
+
+split -n "$1" -a 3 -d "$2" "$filename"'.' && echo "You can join file back by doing: cat $filename.* > $filename"
+# --- Bitcoin donations: 1KRrt1czThtZ1kTyUd7z7u296q9K9G2RHX
+# ---   God bless you!
+# ---     Thank you!
