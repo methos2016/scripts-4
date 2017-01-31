@@ -1,7 +1,7 @@
 #! /bin/bash
 # --- About: Encode input audio files with ffmpeg from current folder and save them in a folder named "vorbis"
 # --- Usage: script.sh <input_file_extension> <threads>
-# --- Tools needed: ffmpeg, head, xxd, parallel
+# --- Tools needed: oggenc, head, xxd, parallel
 set -e
 
 
@@ -28,6 +28,6 @@ for f in *.$ext;
 
 mkdir -p vorbis && cd vorbis
 
-parallel -j $threads 'f={}; ffmpeg -i ../{} -c:a libvorbis -q:a 8 "${f%."'${ext}'"}.ogg"' < "../$rnd.txt" && rm -f "../$rnd.txt" && echo 'Done!'
+parallel -j $threads 'f={}; oggenc --quality 8 --output="${f%."'${ext}'"}.ogg" ../{}' < "../$rnd.txt" && rm -f "../$rnd.txt" && echo 'Done!'
 
 exit

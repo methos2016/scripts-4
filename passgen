@@ -11,7 +11,7 @@ fi
 len="$1"
 # chars len must be 0..255, or 256 total count
 # A-Z a-z 0-9
-chars='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789ABCDEFGHJKLMNPQ'
+chars='LbxjKha{M[~zy*-HBY)idw!}DZ6X\VN4qvSuEWep7A52T8U<Q_FC^kgRPco>nt9rJfs(]G3mLbxjKha{M[~zy*-HBY)idw!}DZ6X\VN4qvSuEWep7A52T8U<Q_FC^kgRPco>nt9rJfs(]G3mLbxjKha{M[~zy*-HBY)idw!}DZ6X\VN4qvSuEWep7A52T8U<Q_FC^kgRPco>nt9rJfs(]G3mLbxjKha{M[~zy*-HBY)idw!}DZ6X\VN4qvSuEWep'
 
 # generate password
 while [ "$len" -gt 0 ];
@@ -21,7 +21,7 @@ do
   index=$(echo $((0x$a)))
 
   # update password
-  pass="$pass"$(echo -n ${chars:$index:1});
+  pass="$pass"$(echo -n "${chars:$index:1}");
 
   # update counter
   len=$((len-1));
