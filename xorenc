@@ -5,8 +5,8 @@
 # ---   To xor encrypt a file: script <input_file>
 # ---   To xor decrypt a file: -d <data_file> <key_file>
 # --- Tools needed: xor, passgen, head, xxd
-# ---   "xor" tool can be found at:     http://pastebin.com/E9UGTYd1
-# ---   "passgen" tool can be found at: https://github.com/7ng3dk/scripts
+# ---   "xor" tool can be found at:     https://github.com/7ng3dk/xor
+# ---   "passgen" tool can be found at: https://github.com/7ng3dk/passgen
 # --- Data file name is something like this: VQYQEoyEeQjCBD7UcAUgek.tar.xz, KnL475aQWErk7A.txt
 if [ $# -eq 0 ]; then
   echo 'Usage:'
