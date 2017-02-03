@@ -5,13 +5,17 @@
 if [ $# -eq 0 ]; then
   echo 'Usage: script.sh <length>'
   echo '  Example: script.sh 20'
+
   exit 2
 fi
 
 len="$1"
+
+
 # chars len must be 0..255, or 256 total count
-# A-Z a-z 0-9
-chars='LbxjKha{M[~zy*-HBY)idw!}DZ6X\VN4qvSuEWep7A52T8U<Q_FC^kgRPco>nt9rJfs(]G3mLbxjKha{M[~zy*-HBY)idw!}DZ6X\VN4qvSuEWep7A52T8U<Q_FC^kgRPco>nt9rJfs(]G3mLbxjKha{M[~zy*-HBY)idw!}DZ6X\VN4qvSuEWep7A52T8U<Q_FC^kgRPco>nt9rJfs(]G3mLbxjKha{M[~zy*-HBY)idw!}DZ6X\VN4qvSuEWep'
+# ' '-'~' ($20..$7E), or 95 unique characters, organized in random order
+chars="n:IfYO{CNG54%\`du;2P*T^@b)Rg !J+$}Vq7#x0_<aoB.tHlE?p&e/8v9w]my=,~K3(XQkW[|iFShM'\6sL>Zr\"cz1DjU-Al\v(CarN #$,\`^omM_E:RO)Y]2hW9zcpI;'/-~J+nk}SP4QjVw\"xsq8A5Dg=6<H0e>FKdZ[@&.ubfLiT7%|{3Uy?G!tX1B*#%|,mir5\$Dc31-E&slhnj6!Ke[ L_I]G8k4}VX2(o?+:PaHfud9gTUF\z7/<\">xM0t"
+
 
 # generate password
 while [ "$len" -gt 0 ];
@@ -26,6 +30,7 @@ do
   # update counter
   len=$((len-1));
 done
+
 
 # show generated password
 echo "$pass"
