@@ -67,7 +67,7 @@ if [ "$suffix" == 'xz' ]; then
   if [ "$op" == 'archive' ]; then
     # archive, compress, encrypt, and write to file
     tar -C "$directory" -c -p $(basename "$filename") --to-stdout | \
-    xz '--lzma2=dict=128MiB,lc=4,lp=0,pb=2,nice=256,mf=bt4,depth=32768' | \
+    xz '--lzma2=dict=128MiB,lc=4,lp=0,pb=2,nice=273,mf=bt4,depth=32768' | \
     gpg -c --compress-algo Uncompressed --cipher-algo "$cipher" > $(basename "$filename").tar.xz.gpg && echo 'Done!'
   else
     if [ "$op" == 'extract' ]; then
