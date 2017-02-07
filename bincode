@@ -1,0 +1,41 @@
+#! /bin/bash
+PATH='/sbin:/bin:/usr/bin:/usr/local/bin'
+# --- ***** RUN THIS AT YOUR OWN RISK *****
+# --- About: Encode data.
+# --- Usage: script.sh <source_form> <dest_form> <input_file>
+# --- Tools needed: gnupg
+
+
+# if insufficient number of commands were given show help message
+if [ $# -lt 3 ]; then
+  echo 'Usage: script.sh <source_form(bin, armor)> <dest_form(bin, armor)> <input_file>'
+  echo '  Example: script.sh bin armor file.tar.gz'
+  exit 2
+fi
+
+
+source=$1
+dest=$2
+filename="$3"
+
+
+output_filename=$(basename "$filename")
+
+
+if [ $source == 'bin' ] && [ $dest == 'armor' ]; then
+  output_filename="$output_filename.asc"
+
+  gpg -o "$output_filename" --enarmor "$filename"
+
+  exit
+else if [ $source == 'armor' ] && [ $dest == 'bin' ]; then
+  gpg --dearmor < "$filename" > "${output_filename%.asc}"
+
+  exit
+fi
+fi
+
+
+# --- Bitcoin donations: 1KRrt1czThtZ1kTyUd7z7u296q9K9G2RHX
+# ---   God bless you!
+# ---     Thank you!
