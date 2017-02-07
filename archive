@@ -1,7 +1,7 @@
 #! /bin/bash
 # --- About: Archive, compress, encrypt, and output file to current directory
 # --- Usage: script.sh <input_file/folder> <compression> <operation>
-# --- Tools needed: tar, gnupg, xz-utils, bzip2, gzip
+# --- Tools needed: tar, gnupg, xz-utils, bzip2, gzip, snzip
 set -e
 
 
@@ -11,7 +11,7 @@ cipher='TWOFISH'
 
 if [ "$#" -lt 3 ]; then
   # if user given commands is less than 3, show help message
-  echo 'Usage: script <input_file/folder> <compression(gzip, bzip2, xz)> <operation(archive, extract)>'
+  echo 'Usage: script <input_file/folder> <compression(none, gzip, bzip2, xz, sz)> <operation(archive, extract)>'
   echo '  Example: ./script folder gzip archive'
   exit 2
 fi
@@ -20,9 +20,27 @@ fi
 filename=$1
 suffix=$2
 op=$3
-
+tes=$(basename "$filename")
 
 directory=$(dirname "$filename")
+
+
+# archive using specified compression
+if [ "$suffix" == 'none' ]; then
+  # check for operation...
+  if [ "$op" == 'archive' ]; then
+    # archive, encrypt, and write to file
+    tar -C "$directory" -c -p $(basename "$filename") --to-stdout | \
+    gpg -c --compress-algo Uncompressed --cipher-algo "$cipher" > $(basename "$filename").tar.gpg && echo 'Done!'
+  else
+    if [ "$op" == 'extract' ]; then
+      # decrypt, and extract files from archive
+      gpg -d "$filename" | tar -x && echo 'Done!'
+    fi
+  fi
+
+  exit
+fi
 
 
 # archive using specified compression
@@ -73,6 +91,24 @@ if [ "$suffix" == 'xz' ]; then
     if [ "$op" == 'extract' ]; then
       # decrypt, and extract files from archive
       gpg -d "$filename" | tar -x -J && echo 'Done!'
+    fi
+  fi
+
+  exit
+fi
+
+
+if [ "$suffix" == 'sz' ]; then
+  # check for operation...
+  if [ "$op" == 'archive' ]; then
+    # archive, compress, encrypt, and write to file
+    tar -C "$directory" -c -p $(basename "$filename") --to-stdout | \
+    snzip -t framing2 -R $((1024*16)) -W $((1024*12)) -c /dev/stdin | \
+    gpg -c --compress-algo Uncompressed --cipher-algo "$cipher" > $(basename "$filename").tar.sz.gpg && echo 'Done!'
+  else
+    if [ "$op" == 'extract' ]; then
+      # decrypt, and extract files from archive
+      gpg -d "$filename" | snzip -d -c /dev/stdin | tar -x && echo 'Done!'
     fi
   fi
 
