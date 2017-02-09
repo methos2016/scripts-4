@@ -1,7 +1,7 @@
 #! /bin/bash
 # --- About: Archive, compress, encrypt, and output file to current directory
 # --- Usage: script.sh <input_file/folder> <compression> <operation>
-# --- Tools needed: tar, gnupg, xz-utils, bzip2, gzip, snzip
+# --- Tools needed: tar, gnupg, xz-utils, bzip2, gzip, snzip, lz4
 set -e
 
 
@@ -11,7 +11,7 @@ cipher='TWOFISH'
 
 if [ "$#" -lt 3 ]; then
   # if user given commands is less than 3, show help message
-  echo 'Usage: script <input_file/folder> <compression(none, gzip, bzip2, xz, sz)> <operation(archive, extract)>'
+  echo 'Usage: script <input_file/folder> <compression(none, gzip, bzip2, xz, sz, lz4)> <operation(archive, extract)>'
   echo '  Example: ./script folder gzip archive'
   exit 2
 fi
@@ -110,6 +110,24 @@ if [ "$suffix" == 'sz' ]; then
     if [ "$op" == 'extract' ]; then
       # decrypt, and extract files from archive
       gpg -d "$filename" | snzip -d -c /dev/stdin | tar -x && echo 'Done!'
+    fi
+  fi
+
+  exit
+fi
+
+
+if [ "$suffix" == 'lz4' ]; then
+  # check for operation...
+  if [ "$op" == 'archive' ]; then
+    # archive, compress, encrypt, and write to file
+    tar -C "$directory" -c -p "$input_filename" --to-stdout | \
+    lz4 -z -9 | \
+    gpg -c --compress-algo Uncompressed --cipher-algo "$cipher" > "$input_filename".tar.lz4.gpg && echo 'Done!'
+  else
+    if [ "$op" == 'extract' ]; then
+      # decrypt, and extract files from archive
+      gpg -d "$filename" | lz4 -d | tar -x && echo 'Done!'
     fi
   fi
 
