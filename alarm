@@ -1,0 +1,31 @@
+#! /bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# --- ***** RUN THIS AT YOUR OWN RISK *****
+# --- About: General purpose sound alarm.
+# --- Usage: script.sh <message> <time>
+# --- Tools needed: mplayer, date, zenity
+# --- Files needed: $HOME/.alarm.wav;
+
+# if insufficient number of commands were given show help message
+if [ $# -eq 0 ]; then
+  echo 'Usage: script.sh <message> <time>'
+  echo "  Example: script.sh 'WAKE UP!' 06:45:00"
+  exit 2
+fi
+
+
+message="$1"
+time="$2"
+
+
+while [ "$t" != "$time" ];
+do
+  sleep 0.300s;
+
+  t=$(date +'%H:%M:%S');
+done;
+
+
+zenity --info --text="$message" &
+
+mplayer -volume 100 "$HOME/.alarm.wav"
