@@ -15,6 +15,3 @@ filename=$(basename "$fullfile")
 
 
 split -n "$1" -a 3 -d "$2" "$filename"'.' && echo "You can join file back by doing: cat $filename.* > $filename"
-# --- Bitcoin donations: 1KRrt1czThtZ1kTyUd7z7u296q9K9G2RHX
-# ---   God bless you!
-# ---     Thank you!

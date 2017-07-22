@@ -29,8 +29,3 @@ echo 'hello' | $hash_tool > /dev/null &&
 find ./ -type f -exec $hash_tool {} + > '/tmp/SwR8bqEBvGSriAXEWsDHPSqKr2NmBcE4.sum' &&
 mv '/tmp/SwR8bqEBvGSriAXEWsDHPSqKr2NmBcE4.sum' $hash_tool &&
 chmod a+r-wx $hash_tool
-
-
-# --- Bitcoin donations: 1KRrt1czThtZ1kTyUd7z7u296q9K9G2RHX
-# ---   God bless you!
-# ---     Thank you!
