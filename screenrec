@@ -1,0 +1,17 @@
+#! /bin/bash
+PATH='/sbin:/bin:/usr/bin:/usr/local/bin'
+# --- ***** RUN THIS AT YOUR OWN RISK *****
+# --- About: Record screen to video file.
+# --- Usage: size=1600x900; x=0; y=0; fps=20; script.sh
+# --- Tools needed: ffmpeg; xxd
+
+file=$(head -c 6 /dev/urandom | xxd -p);
+
+delay=2s; size=1600x900; x=0; y=0; fps=20; \
+sleep $delay; \
+ffmpeg \
+-framerate $fps -f x11grab -s $size -i :0.0+$x,$y \
+-pix_fmt yuv444p \
+-c:v libx264 -preset ultrafast -x264opts qp=0:keyint=$((fps*10)):min-keyint=$fps \
+-y ~/"$file".mkv
+
